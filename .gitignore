@@ -1,0 +1,9 @@
+ecqv-keygen
+.settings/
+.cproject
+.project
+*~
+*.swp
+*.orig
+*.a
+*.o
