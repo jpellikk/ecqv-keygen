@@ -268,8 +268,15 @@ static int ecqv_create_bn_from_id(struct ecqv_gen_t *ecqv_gen)
 	rewind(ecqv_gen->in);
 
 	if (file_len > 0) {
-		buf = realloc(buf, file_len);
-		fread(buf, file_len, 1, ecqv_gen->in);
+		unsigned char *tmp_buf;
+		tmp_buf = realloc(buf, file_len);
+
+		if (!tmp_buf) {
+			goto ERROR;
+		}
+
+		buf = tmp_buf;
+		file_len = fread(buf, file_len, 1, ecqv_gen->in);
 		EVP_DigestUpdate(md_ctx, buf, file_len);
 	} else {
 		fprintf(stderr, "No identity data supplied.\n");
